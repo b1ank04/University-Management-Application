@@ -1,5 +1,6 @@
 CREATE TABLE audiences(
-    id int PRIMARY KEY
+    id SERIAL PRIMARY KEY,
+    floor int
 );
 CREATE TABLE faculties(
                           id SERIAL PRIMARY KEY,
@@ -32,19 +33,3 @@ CREATE TABLE teachers(
                          last_name varchar(50),
                          FOREIGN KEY(subject_id) references subjects(id) ON DELETE CASCADE
 );
-/*
-CREATE TABLE lessons(
-                        id SERIAL PRIMARY KEY,
-                        subject_id int,
-                        audience_id int,
-                        group_id int,
-                        teacher_id int,
-                        date date,
-                        number int,
-                        FOREIGN KEY(group_id) references groups(id) ON DELETE CASCADE,
-                        FOREIGN KEY(subject_id) references subjects(id) ON DELETE CASCADE,
-                        FOREIGN KEY(teacher_id) references teachers(id) ON DELETE CASCADE,
-                        FOREIGN KEY(audience_id) references audiences(id) ON DELETE CASCADE
-);
-
- */

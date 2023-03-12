@@ -1,9 +1,6 @@
-package com.blank04.universitycms.faculty;
+package com.blank04.universitycms.model.entity;
 
-import com.blank04.universitycms.faculty.unit.Group;
-import com.blank04.universitycms.faculty.unit.Subject;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

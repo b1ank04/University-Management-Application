@@ -1,12 +1,12 @@
 package com.blank04.universitycms.database;
 
-import com.blank04.universitycms.faculty.Faculty;
-import com.blank04.universitycms.faculty.unit.Audience;
-import com.blank04.universitycms.faculty.unit.Group;
-import com.blank04.universitycms.faculty.unit.Lesson;
-import com.blank04.universitycms.faculty.unit.Subject;
-import com.blank04.universitycms.user.impl.Student;
-import com.blank04.universitycms.user.impl.Teacher;
+import com.blank04.universitycms.model.entity.Faculty;
+import com.blank04.universitycms.model.entity.Audience;
+import com.blank04.universitycms.model.entity.Group;
+import com.blank04.universitycms.model.Lesson;
+import com.blank04.universitycms.model.entity.Subject;
+import com.blank04.universitycms.model.user.impl.Student;
+import com.blank04.universitycms.model.user.impl.Teacher;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -19,6 +19,7 @@ public class DataGenerator {
     private DataGenerator() {
         throw new IllegalStateException("Utility class");
     }
+
     public static List<Student> createStudents() {
         List<String> firstNames = List.of("Artur", "Bogdan", "Vadim", "Ivan",
                 "Dmitriy", "Egor", "Denis", "Anton", "Yaroslav", "Matvei",
@@ -53,9 +54,9 @@ public class DataGenerator {
         Set<String> groupNames = new HashSet<>();
         List<Group> groups = new ArrayList<>();
         while (groupNames.size() < 10) {
-            char firstChar = (char)(random.nextInt(26) + 'a');
-            char secondChar = (char)(random.nextInt(26) + 'a');
-            String name = (String.valueOf(firstChar) + secondChar + "-" + (random.nextInt(99-10)+10)).toUpperCase();
+            char firstChar = (char) (random.nextInt(26) + 'a');
+            char secondChar = (char) (random.nextInt(26) + 'a');
+            String name = (String.valueOf(firstChar) + secondChar + "-" + (random.nextInt(99 - 10) + 10)).toUpperCase();
             groupNames.add(name);
         }
         for (String name : groupNames) {
@@ -70,19 +71,25 @@ public class DataGenerator {
         List<String> lastNames = List.of("Shurko", "Prokopenko", "Ivanov(a)", "Svetlov(a)",
                 "Taran", "Grachov(a)", "Kuzmenko", "Kravchenko", "Popov(a)", "Petrov(a)");
         Set<Teacher> teachers = new HashSet<>();
-        while (teachers.size() < 10) {
+        int subjectIndex = 0;
+        while (teachers.size() < 30) {
+            subjectIndex++;
             String firstName = firstNames.get(random.nextInt(firstNames.size()));
             String lastName = lastNames.get(random.nextInt(lastNames.size()));
-            Teacher teacher = new Teacher(null,random.nextLong(1, 11), firstName, lastName);
+            long subjectId = subjectIndex <= 10 ? subjectIndex : random.nextLong(1, 11);
+            Teacher teacher = new Teacher(null, subjectId, firstName, lastName);
             teachers.add(teacher);
         }
-        return teachers.stream().toList();
+
+        List<Teacher> shuffleTeachers = new ArrayList<>(teachers.stream().toList());
+        Collections.shuffle(shuffleTeachers);
+        return shuffleTeachers;
     }
 
     public static List<Audience> createAudiences() {
         Set<Audience> audiences = new HashSet<>();
         while (audiences.size() < 20) {
-            audiences.add(new Audience(random.nextLong(200)));
+            audiences.add(new Audience(null, random.nextInt(1, 4)));
         }
         return audiences.stream().toList();
     }
@@ -107,7 +114,7 @@ public class DataGenerator {
         for (int i = 0; i < 5; ++i) {
             faculties.get(0).addSubject(subjects.get(i));
         }
-        for(int i = 5; i < 10; ++i) {
+        for (int i = 5; i < 10; ++i) {
             faculties.get(1).addSubject(subjects.get(i));
         }
         return faculties;
@@ -131,13 +138,14 @@ public class DataGenerator {
         int amountOfLessons = 4;
         int startAudience = random.nextInt(10);
         List<Lesson> lessons = new ArrayList<>();
-        for (int i = 0; i < amountOfLessons; ++i) {
+        for (int i = 1; i <= amountOfLessons; ++i) {
             for (int groupIndex = 1; groupIndex <= 10; ++groupIndex) {
                 boolean groupHasLesson = random.nextBoolean();
                 if (groupHasLesson) {
                     Lesson lesson = randomLesson(teachers);
                     lesson.setGroupId((long) groupIndex);
                     lesson.setAudienceId((long) startAudience + groupIndex);
+                    lesson.setNumber(i);
                     lessons.add(lesson);
                 }
             }
@@ -146,18 +154,15 @@ public class DataGenerator {
     }
 
     private static Lesson randomLesson(List<Teacher> teachers) {
-        Long subjectId = random.nextLong(11);
-        Teacher teacher = new Teacher();
-        boolean teacherNotFound = true;
-        while (teacherNotFound) {
-            Teacher temporalTeacher = teachers.get(random.nextInt(0,10));
-            if (Objects.equals(temporalTeacher.getSubjectId(), subjectId)) {
-                teacher = temporalTeacher;
-                teacherNotFound = false;
-            }
-        }
-        return new Lesson(null, subjectId, null
-                ,null, teacher.getId()
-                , null, null);
+        Long subjectId = random.nextLong(1,11);
+        Teacher matchingTeacher = teachers.stream()
+                .filter(teacher -> Objects.equals(teacher.getSubjectId(), subjectId))
+                .findAny()
+                .orElse(null);
+        if (matchingTeacher != null) {
+            return new Lesson(null, subjectId, null
+                    , null, matchingTeacher.getId()
+                    , null, null);
+        } else throw new NoSuchElementException(String.format("Teacher with subject_id=%d doesn't exist", subjectId));
     }
 }

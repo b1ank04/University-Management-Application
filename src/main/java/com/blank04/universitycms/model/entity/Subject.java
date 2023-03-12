@@ -1,13 +1,11 @@
-package com.blank04.universitycms.faculty.unit;
+package com.blank04.universitycms.model.entity;
 
-import com.blank04.universitycms.faculty.Faculty;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @Table(name = "subjects")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class Subject {
     @Id
@@ -24,5 +22,7 @@ public class Subject {
 
     @ManyToOne
     @JoinColumn(name = "faculty_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Faculty faculty;
 }

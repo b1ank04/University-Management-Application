@@ -1,22 +1,21 @@
-package com.blank04.universitycms.user.impl;
+package com.blank04.universitycms.model.user.impl;
 
 import jakarta.persistence.*;
 import lombok.*;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "students")
+@Table(name = "teachers")
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-public class Student extends BasicUser {
+@Data
+public class Teacher extends BasicUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "group_id")
-    private Long groupId;
-
+    @Column(name = "subject_id")
+    private Long subjectId;
     @Column(name = "first_name")
     private String firstName;
 
