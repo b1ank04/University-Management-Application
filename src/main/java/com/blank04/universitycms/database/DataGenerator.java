@@ -60,7 +60,7 @@ public class DataGenerator {
             groupNames.add(name);
         }
         for (String name : groupNames) {
-            groups.add(new Group(null, name, faculties.get(random.nextInt(2))));
+            groups.add(new Group(null, name, faculties.get(random.nextInt(0,2))));
         }
         return groups;
     }
@@ -73,12 +73,15 @@ public class DataGenerator {
         Set<Teacher> teachers = new HashSet<>();
         int subjectIndex = 0;
         while (teachers.size() < 30) {
-            subjectIndex++;
             String firstName = firstNames.get(random.nextInt(firstNames.size()));
             String lastName = lastNames.get(random.nextInt(lastNames.size()));
-            Subject subject = subjects.get(ThreadLocalRandom.current().nextInt(subjects.size()));
+            Subject subject = subjectIndex < 10 ? subjects.get(subjectIndex) : subjects.get(ThreadLocalRandom.current().nextInt(subjects.size()));
             Teacher teacher = new Teacher(null, firstName, lastName, subject);
             teachers.add(teacher);
+            subjectIndex++;
+        }
+        for (Subject subject : subjects) {
+            teachers.stream().findAny().orElseThrow().setSubject(subject);
         }
 
         List<Teacher> shuffleTeachers = new ArrayList<>(teachers.stream().toList());

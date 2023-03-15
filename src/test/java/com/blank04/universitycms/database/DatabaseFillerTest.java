@@ -1,8 +1,6 @@
 package com.blank04.universitycms.database;
 
 import com.blank04.universitycms.repository.*;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -11,9 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
-
-import java.io.IOException;
-import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -35,8 +30,6 @@ class DatabaseFillerTest {
     SubjectRepository subjectRepository;
     TeacherRepository teacherRepository;
 
-    @Autowired
-    EntityManager entityManager;
 
     @Autowired
     public DatabaseFillerTest(DatabaseFiller databaseFiller, AudienceRepository audienceRepository,
@@ -52,7 +45,7 @@ class DatabaseFillerTest {
     }
 
     @Test
-    void run() throws SQLException, IOException {
+    void shouldInitializeDatabaseWithGeneratedValues() {
         long dbCount = audienceRepository.count() + facultyRepository.count()
                 + groupRepository.count() + studentRepository.count()
                 + subjectRepository.count() + teacherRepository.count();
