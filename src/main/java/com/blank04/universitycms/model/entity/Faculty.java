@@ -33,4 +33,7 @@ public class Faculty {
     public void addSubject(Subject subject) {
         subjects.add(subject);
     }
+    public void addGroup(Group group) {
+        groups.add(group);
+    }
 }

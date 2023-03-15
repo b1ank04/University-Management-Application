@@ -37,4 +37,7 @@ public class Group {
     @EqualsAndHashCode.Exclude
     private List<Student> students = new ArrayList<>();
 
+    public void addStudent(Student student) {
+        students.add(student);
+    }
 }

@@ -8,14 +8,15 @@ import com.blank04.universitycms.model.entity.Subject;
 import com.blank04.universitycms.model.user.impl.Student;
 import com.blank04.universitycms.model.user.impl.Teacher;
 import com.blank04.universitycms.repository.*;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Component
-public class DatabaseFiller implements ApplicationRunner {
+@Getter
+public class DatabaseFiller {
     private final GroupRepository groupRepository;
     private final StudentRepository studentRepository;
     private final SubjectRepository subjectRepository;
@@ -34,48 +35,60 @@ public class DatabaseFiller implements ApplicationRunner {
         this.teacherRepository = teacherRepository;
     }
 
-    @Override
-    public void run(ApplicationArguments args) {
+    @Transactional
+    public void fillDatabase() {
         List<Subject> subjects = DataGenerator.createSubjects();
         List<Faculty> faculties = DataGenerator.createFaculties(subjects);
         List<Audience> audiences = DataGenerator.createAudiences();
         List<Teacher> teachers = DataGenerator.createTeachers();
         List<Group> groups = DataGenerator.createGroups(faculties);
         List<Student> students = DataGenerator.createStudents();
+        boolean isDatabaseNotFullyInit =
+                        audienceRepository.count() < 1 &&
+                        facultyRepository.count() < 1 &&
+                        subjectRepository.count() < 1 &&
+                        groupRepository.count() < 1 &&
+                        studentRepository.count() < 1 &&
+                        teacherRepository.count() < 1;
 
-        int audiencesCount = audienceRepository.findAll().size();
-        int facultiesCount = facultyRepository.findAll().size();
-        int subjectsCount = subjectRepository.findAll().size();
-        int groupsCount = groupRepository.findAll().size();
-        int studentsCount = studentRepository.findAll().size();
-        int teachersCount = teacherRepository.findAll().size();
+        if (isDatabaseNotFullyInit) {
 
-        if (audiencesCount < 1) fillAudiences(audiences);
-        if (facultiesCount < 1) fillFaculties(faculties);
-        if (subjectsCount < 1) fillSubjects(subjects);
-        if (groupsCount < 1) fillGroups(groups);
-        if (studentsCount < 1) fillStudents(students);
-        if (teachersCount < 1) fillTeachers(teachers);
+
+            teacherRepository.deleteAll();
+            studentRepository.deleteAll();
+            groupRepository.deleteAll();
+            subjectRepository.deleteAll();
+            facultyRepository.deleteAll();
+            audienceRepository.deleteAll();
+
+
+            fillAudiences(audiences);
+            fillFaculties(faculties);
+            fillSubjects(subjects);
+            fillGroups(groups);
+            fillStudents(students);
+            fillTeachers(teachers);
+        }
 
         TimeTable.setSchedule(DataGenerator.createSchedule(teacherRepository.findAll()));
     }
 
-    private void fillGroups(List<Group> groups) {
-        groupRepository.saveAll(groups);
+    public List<Group> fillGroups(List<Group> groups) {
+        return groupRepository.saveAll(groups);
     }
-    private void fillStudents(List<Student> students) {
-        studentRepository.saveAll(students);
+    private List<Student> fillStudents(List<Student> students) {
+        return studentRepository.saveAll(students);
     }
-    private void fillSubjects(List<Subject> subjects) {
-        subjectRepository.saveAll(subjects);
+    public List<Subject> fillSubjects(List<Subject> subjects) {
+        return subjectRepository.saveAll(subjects);
     }
-    private void fillAudiences(List<Audience> audiences) {
-        audienceRepository.saveAll(audiences);
+    private List<Audience> fillAudiences(List<Audience> audiences) {
+        return audienceRepository.saveAll(audiences);
     }
-    private void fillFaculties(List<Faculty> faculties) {
-        facultyRepository.saveAll(faculties);
+    public List<Faculty> fillFaculties(List<Faculty> faculties) {
+        return facultyRepository.saveAll(faculties);
     }
-    private void fillTeachers(List<Teacher> teachers) {
-        teacherRepository.saveAll(teachers);
+    private List<Teacher> fillTeachers(List<Teacher> teachers) {
+        return teacherRepository.saveAll(teachers);
     }
 }

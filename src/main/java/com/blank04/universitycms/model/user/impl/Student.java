@@ -4,7 +4,8 @@ import com.blank04.universitycms.model.entity.Group;
 import jakarta.persistence.*;
 import lombok.*;
 
-@EqualsAndHashCode(callSuper = true)
+import java.util.Objects;
+
 @Entity
 @Table(name = "students")
 @Data
@@ -33,6 +34,18 @@ public class Student extends BasicUser {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Group group;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student student)) return false;
+        return Objects.equals(getId(), student.getId()) && Objects.equals(getGroupId(), student.getGroupId()) && Objects.equals(getFirstName(), student.getFirstName()) && Objects.equals(getLastName(), student.getLastName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getGroupId(), getFirstName(), getLastName());
+    }
+
 }
