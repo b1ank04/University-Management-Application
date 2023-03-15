@@ -3,7 +3,7 @@ spring:
     active: test
   datasource:
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
-    url: jdbc:tc:postgresql:14.6:///test?currentSchema=university_db&TC_REUSABLE=true
+    url: jdbc:tc:postgresql:14.6:///test?currentSchema=university_db&TC_DAEMON=true
     username: root
     password: test
     hikari:

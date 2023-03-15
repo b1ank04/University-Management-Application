@@ -2,7 +2,9 @@ package com.blank04.universitycms.model.user.impl;
 
 import com.blank04.universitycms.model.entity.Group;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.Objects;
 
@@ -15,20 +17,23 @@ public class Student extends BasicUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "group_id")
-    private Long groupId;
-
     @Column(name = "first_name")
     private String firstName;
 
     @Column(name = "last_name")
     private String lastName;
 
-    public Student(Long id, Long groupId, String firstName, String lastName) {
+    public Student(Long id, String firstName, String lastName) {
         this.id = id;
-        this.groupId = groupId;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public Student(Long id, String firstName, String lastName, Group group) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.group = group;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -40,12 +45,12 @@ public class Student extends BasicUser {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Student student)) return false;
-        return Objects.equals(getId(), student.getId()) && Objects.equals(getGroupId(), student.getGroupId()) && Objects.equals(getFirstName(), student.getFirstName()) && Objects.equals(getLastName(), student.getLastName());
+        return Objects.equals(getId(), student.getId()) && Objects.equals(getFirstName(), student.getFirstName()) && Objects.equals(getLastName(), student.getLastName()) && Objects.equals(group, student.getGroup());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getGroupId(), getFirstName(), getLastName());
+        return Objects.hash(getId(), getGroup(), getFirstName(), getLastName());
     }
 
 }

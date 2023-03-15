@@ -1,24 +1,21 @@
 package com.blank04.universitycms.database;
 
-import com.blank04.universitycms.model.entity.Audience;
-import com.blank04.universitycms.model.entity.Faculty;
-import com.blank04.universitycms.model.entity.Group;
 import com.blank04.universitycms.repository.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.io.*;
-import java.sql.*;
+import java.io.IOException;
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 @DataJpaTest(includeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = {AudienceRepository.class, FacultyRepository.class, DatabaseFiller.class,
         GroupRepository.class, StudentRepository.class, SubjectRepository.class, TeacherRepository.class})})
@@ -27,6 +24,7 @@ import static org.mockito.Mockito.verify;
         scripts = {"/sql/clear_tables.sql"},
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
 )
+@ActiveProfiles("disableDataGeneration")
 class DatabaseFillerTest {
 
     DatabaseFiller databaseFiller;
@@ -36,6 +34,9 @@ class DatabaseFillerTest {
     StudentRepository studentRepository;
     SubjectRepository subjectRepository;
     TeacherRepository teacherRepository;
+
+    @Autowired
+    EntityManager entityManager;
 
     @Autowired
     public DatabaseFillerTest(DatabaseFiller databaseFiller, AudienceRepository audienceRepository,
@@ -58,6 +59,11 @@ class DatabaseFillerTest {
 
         assertEquals(0, dbCount);
         databaseFiller.fillDatabase();
-        verify(databaseFiller, times(1)).fillDatabase();
+        assertEquals(20, audienceRepository.count());
+        assertEquals(2, facultyRepository.count());
+        assertEquals(10, groupRepository.count());
+        assertEquals(200, studentRepository.count());
+        assertEquals(10, subjectRepository.count());
+        assertEquals(30, teacherRepository.count());
     }
 }

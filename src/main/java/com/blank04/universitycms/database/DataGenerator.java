@@ -1,9 +1,9 @@
 package com.blank04.universitycms.database;
 
-import com.blank04.universitycms.model.entity.Faculty;
-import com.blank04.universitycms.model.entity.Audience;
-import com.blank04.universitycms.model.entity.Group;
 import com.blank04.universitycms.model.Lesson;
+import com.blank04.universitycms.model.entity.Audience;
+import com.blank04.universitycms.model.entity.Faculty;
+import com.blank04.universitycms.model.entity.Group;
 import com.blank04.universitycms.model.entity.Subject;
 import com.blank04.universitycms.model.user.impl.Student;
 import com.blank04.universitycms.model.user.impl.Teacher;
@@ -20,7 +20,7 @@ public class DataGenerator {
         throw new IllegalStateException("Utility class");
     }
 
-    public static List<Student> createStudents() {
+    public static List<Student> createStudents(List<Group> groups) {
         List<String> firstNames = List.of("Artur", "Bogdan", "Vadim", "Ivan",
                 "Dmitriy", "Egor", "Denis", "Anton", "Yaroslav", "Matvei",
                 "Evgeniy", "Alla", "Maria", "Anastasia", "Polina", "Alisa",
@@ -33,18 +33,18 @@ public class DataGenerator {
         while (students.size() < 200) {
             String firstName = firstNames.get(random.nextInt(firstNames.size()));
             String lastName = lastNames.get(random.nextInt(lastNames.size()));
-            Student student = new Student(null, null, firstName, lastName);
+            Student student = new Student(null, firstName, lastName);
             students.add(student);
         }
 
-        return assignStudents(students.stream().toList());
+        return assignStudents(students.stream().toList(), groups);
     }
 
-    private static List<Student> assignStudents(List<Student> students) {
-        for (int i = 1; i <= 10; ++i) {
+    private static List<Student> assignStudents(List<Student> students, List<Group> groups) {
+        for (Group group : groups) {
             int amountOfStudentsInGroup = ThreadLocalRandom.current().nextInt(10, 31);
             for (int j = 0; j < amountOfStudentsInGroup; ++j) {
-                students.get(ThreadLocalRandom.current().nextInt(0, 200)).setGroupId((long) i);
+                students.get(ThreadLocalRandom.current().nextInt(0, 200)).setGroup(group);
             }
         }
         return students;
@@ -65,7 +65,7 @@ public class DataGenerator {
         return groups;
     }
 
-    public static List<Teacher> createTeachers() {
+    public static List<Teacher> createTeachers(List<Subject> subjects) {
         List<String> firstNames = List.of("Artur", "Bogdan", "Vadim", "Ivan",
                 "Dmitriy", "Egor", "Denis", "Anton", "Yaroslav", "Alla");
         List<String> lastNames = List.of("Shurko", "Prokopenko", "Ivanov(a)", "Svetlov(a)",
@@ -76,8 +76,8 @@ public class DataGenerator {
             subjectIndex++;
             String firstName = firstNames.get(random.nextInt(firstNames.size()));
             String lastName = lastNames.get(random.nextInt(lastNames.size()));
-            long subjectId = subjectIndex <= 10 ? subjectIndex : random.nextLong(1, 11);
-            Teacher teacher = new Teacher(null, subjectId, firstName, lastName);
+            Subject subject = subjects.get(ThreadLocalRandom.current().nextInt(subjects.size()));
+            Teacher teacher = new Teacher(null, firstName, lastName, subject);
             teachers.add(teacher);
         }
 
@@ -120,12 +120,12 @@ public class DataGenerator {
         return faculties;
     }
 
-    public static Map<LocalDate, List<Lesson>> createSchedule(List<Teacher> teachers) {
+    public static Map<LocalDate, List<Lesson>> createSchedule(List<Teacher> teachers, List<Subject> subjects) {
         Map<LocalDate, List<Lesson>> schedule = new HashMap<>();
         LocalDate start = LocalDate.now();
         LocalDate end = start.plusMonths(1);
         for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
-            List<Lesson> studyDay = createStudyDay(teachers);
+            List<Lesson> studyDay = createStudyDay(teachers, subjects);
             for (Lesson lesson : studyDay) {
                 lesson.setDate(Date.valueOf(date));
             }
@@ -134,7 +134,7 @@ public class DataGenerator {
         return schedule;
     }
 
-    private static List<Lesson> createStudyDay(List<Teacher> teachers) {
+    private static List<Lesson> createStudyDay(List<Teacher> teachers, List<Subject> subjects) {
         int amountOfLessons = 4;
         int startAudience = random.nextInt(10);
         List<Lesson> lessons = new ArrayList<>();
@@ -142,7 +142,7 @@ public class DataGenerator {
             for (int groupIndex = 1; groupIndex <= 10; ++groupIndex) {
                 boolean groupHasLesson = random.nextBoolean();
                 if (groupHasLesson) {
-                    Lesson lesson = randomLesson(teachers);
+                    Lesson lesson = randomLesson(teachers, subjects);
                     lesson.setGroupId((long) groupIndex);
                     lesson.setAudienceId((long) startAudience + groupIndex);
                     lesson.setNumber(i);
@@ -153,10 +153,10 @@ public class DataGenerator {
         return lessons;
     }
 
-    private static Lesson randomLesson(List<Teacher> teachers) {
-        Long subjectId = random.nextLong(1,11);
+    private static Lesson randomLesson(List<Teacher> teachers, List<Subject> subjects) {
+        Long subjectId = subjects.get(ThreadLocalRandom.current().nextInt(subjects.size())).getId();
         Teacher matchingTeacher = teachers.stream()
-                .filter(teacher -> Objects.equals(teacher.getSubjectId(), subjectId))
+                .filter(teacher -> Objects.equals(teacher.getSubject().getId(), subjectId))
                 .findAny()
                 .orElse(null);
         if (matchingTeacher != null) {

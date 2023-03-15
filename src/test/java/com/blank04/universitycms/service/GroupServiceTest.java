@@ -48,10 +48,10 @@ class GroupServiceTest {
     @Test
     void shouldFindRelatedStudents() {
         Group group = new Group(1000L, null, null);
-        group.addStudent(new Student(1000L, 1000L, "John", "Doe"));
+        group.addStudent(new Student(1000L, "John", "Doe", group));
         when(mockedRepository.findById(1000L)).thenReturn(Optional.of(group));
         List<Student> studentList = groupService.findRelatedStudents(1000L);
-        assertEquals(new Student(1000L, 1000L, "John", "Doe"), studentList.get(0));
+        assertEquals(new Student(1000L, "John", "Doe", group), studentList.get(0));
     }
 
     @Test

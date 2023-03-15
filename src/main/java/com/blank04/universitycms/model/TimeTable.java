@@ -23,7 +23,7 @@ public class TimeTable {
                     .toList();
         } else if (user instanceof Student student) {
             return lessons.stream()
-                    .filter(lesson -> Objects.equals(lesson.getGroupId(), student.getGroupId()))
+                    .filter(lesson -> Objects.equals(lesson.getGroupId(), student.getGroup().getId()))
                     .toList();
         } else throw new IllegalArgumentException("User should be logged in as student or teacher");
     }
