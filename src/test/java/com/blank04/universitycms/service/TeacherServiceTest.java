@@ -2,13 +2,12 @@ package com.blank04.universitycms.service;
 
 import com.blank04.universitycms.model.user.impl.Teacher;
 import com.blank04.universitycms.repository.TeacherRepository;
+import com.blank04.universitycms.service.impl.TeacherServiceImpl;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,15 +16,14 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-@AutoConfigureTestDatabase
+@SpringBootTest(classes = TeacherServiceImpl.class)
 class TeacherServiceTest {
 
-    @Mock
+    @MockBean
     TeacherRepository mockedRepository;
 
-    @InjectMocks
-    TeacherService teacherService;
+    @Autowired
+    TeacherServiceImpl teacherService;
 
     @Test
     void shouldDeleteById() throws SQLException {
