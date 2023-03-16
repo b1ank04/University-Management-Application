@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+</head>
+<body>
+    <h2 th:text="'Welcome to ' + ${appName} + '!'" />
+    <br>
+    <div>
+        <h3>Choose the unit to manage:</h3>
+        <table>
+            <tbody>
+                <tr>
+                    <td><a th:href="@{api/audiences}" class="btn btn-primary btn-lg" role="button" >Audiences</a></td>
+                    <td><a th:href="@{api/faculties}" class="btn btn-primary btn-lg" role="button" >Faculties</a></td>
+                    <td><a th:href="@{api/groups}" class="btn btn-primary btn-lg" role="button" >Groups</a></td>
+                    <td><a th:href="@{api/students}" class="btn btn-primary btn-lg" role="button" >Students</a></td>
+                    <td><a th:href="@{api/subjects}" class="btn btn-primary btn-lg" role="button" >Subjects</a></td>
+                    <td><a th:href="@{api/teachers}" class="btn btn-primary btn-lg" role="button" >Teachers</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

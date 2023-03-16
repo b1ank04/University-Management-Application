@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Audiences</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+</head>
+<body>
+<div th:switch="${subjects}">
+    <h2 th:case="${#lists.size(subjects) == 0}">
+        No subjects found!
+    </h2>
+    <div th:case="*">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Subjects</h2>
+            </div>
+            <div class="col-md-6 text-end">
+                <a th:href="@{/}" class="btn btn-primary" role="button">Home page</a>
+            </div>
+        </div>
+        <table class="table">
+            <thead class="table-light">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Faculty ID</th>
+                <th scope="col">Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="subject: ${subjects}">
+                <td th:text="${subject.getId()}"></td>
+                <td th:text="${subject.getFaculty() != null ? subject.getFaculty().getId() : 'No faculty'}"></td>
+                <td th:text="${subject.getName()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

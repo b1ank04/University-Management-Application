@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Audiences</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+</head>
+<body>
+    <div th:switch="${audiences}">
+        <h2 th:case="${#lists.size(audiences) == 0}">
+            No audiences found!
+        </h2>
+        <div th:case="*">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Audiences</h2>
+                </div>
+                <div class="col-md-6 text-end">
+                    <a th:href="@{/}" class="btn btn-primary" role="button">Home page</a>
+                </div>
+            </div>
+            <table class="table">
+                <thead class="table-light">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Floor</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="audience: ${audiences}">
+                    <td th:text="${audience.getId()}"></td>
+                    <td th:text="${audience.getFloor()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

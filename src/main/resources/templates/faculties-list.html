@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Faculties</title>
+  <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+</head>
+  <body>
+  <div th:switch="${faculties}">
+    <h2 th:case="${#lists.size(faculties) == 0}">
+      No faculties found!
+    </h2>
+    <div th:case="*">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Faculties</h2>
+        </div>
+        <div class="col-md-6 text-end">
+          <a th:href="@{/}" class="btn btn-primary" role="button">Home page</a>
+        </div>
+      </div>
+      <table class="table">
+        <thead class="table-light">
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Subjects</th>
+          <th scope="col">Groups</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="faculty: ${faculties}">
+          <td th:text="${faculty.getId()}"></td>
+          <td th:text="${faculty.getName()}"></td>
+          <td>
+            <details th:id="'subjectDetails_' + ${faculty.getId()}">
+              <summary>Click to show</summary>
+              <div th:each="subject : ${faculty.getSubjects()}" th:text="${subject.getName()}"></div>
+            </details>
+          </td>
+          <td>
+            <details th:id="'groupDetails_' + ${faculty.getId()}">
+              <summary>Click to show</summary>
+              <div th:each="group : ${faculty.getGroups()}" th:text="${group.getName()}"></div>
+            </details>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+    <script>
+      const groupDetailsList = document.querySelectorAll('[id^="groupDetails_"]');
+      const subjectDetailsList = document.querySelectorAll('[id^="subjectDetails_"]');
+      groupDetailsList.forEach(groupDetails => {
+        const summary = groupDetails.querySelector('summary');
+
+        groupDetails.addEventListener('toggle', function() {
+          if (groupDetails.open) {
+            summary.textContent = 'Click to hide';
+          } else {
+            summary.textContent = 'Click to show';
+          }
+        });
+      });
+      subjectDetailsList.forEach(subjectDetails => {
+        const summary = subjectDetails.querySelector('summary');
+
+        subjectDetails.addEventListener('toggle', function () {
+          if (subjectDetails.open) {
+            summary.textContent = 'Click to hide';
+          } else {
+            summary.textContent = 'Click to show';
+          }
+        })
+      });
+    </script>
+  </body>
+</html>

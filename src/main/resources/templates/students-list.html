@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Faculties</title>
+  <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+</head>
+<body>
+  <div th:switch="${students}">
+    <h2 th:case="${#lists.size(students) == 0}">
+      No students found!
+    </h2>
+    <div th:case="*">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Students</h2>
+        </div>
+        <div class="col-md-6 text-end">
+          <a th:href="@{/}" class="btn btn-primary" role="button">Home page</a>
+        </div>
+      </div>
+      <table class="table">
+        <thead class="table-light">
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Group ID</th>
+          <th scope="col">First name</th>
+          <th scope="col">Last name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student: ${students}">
+          <td th:text="${student.getId()}"></td>
+          <td th:text="${student.getGroup() != null ? student.getGroup().getId() : 'No group' }"></td>
+          <td th:text="${student.getFirstName()}"></td>
+          <td th:text="${student.getLastName()}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

@@ -97,29 +97,23 @@ public class DataGenerator {
         return audiences.stream().toList();
     }
 
-    public static List<Subject> createSubjects() {
+    public static List<Subject> createSubjects(List<Faculty> faculties) {
         List<String> subjects = new ArrayList<>(List.of("Mathematics", "Biology", "Physical Education",
                 "Art", "Astronomy", "Physics", "Computer Science",
                 "History", "Economics", "Philosophy"));
         Collections.shuffle(subjects);
         Set<Subject> resultSubjects = new HashSet<>();
         for (String name : subjects) {
-            resultSubjects.add(new Subject(null, name));
+            resultSubjects.add(new Subject(null, name, faculties.get(ThreadLocalRandom.current().nextInt(faculties.size()))));
         }
         return resultSubjects.stream().toList();
 
     }
 
-    public static List<Faculty> createFaculties(List<Subject> subjects) {
+    public static List<Faculty> createFaculties() {
         List<Faculty> faculties = new ArrayList<>();
         faculties.add(new Faculty(null, "FFO"));
         faculties.add(new Faculty(null, "FIOT"));
-        for (int i = 0; i < 5; ++i) {
-            faculties.get(0).addSubject(subjects.get(i));
-        }
-        for (int i = 5; i < 10; ++i) {
-            faculties.get(1).addSubject(subjects.get(i));
-        }
         return faculties;
     }
 

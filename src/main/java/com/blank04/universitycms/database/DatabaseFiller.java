@@ -37,8 +37,8 @@ public class DatabaseFiller {
 
     @Transactional
     public void fillDatabase() {
-        List<Subject> subjects = DataGenerator.createSubjects();
-        List<Faculty> faculties = DataGenerator.createFaculties(subjects);
+        List<Faculty> faculties = DataGenerator.createFaculties();
+        List<Subject> subjects = DataGenerator.createSubjects(faculties);
         List<Audience> audiences = DataGenerator.createAudiences();
         List<Teacher> teachers = DataGenerator.createTeachers(subjects);
         List<Group> groups = DataGenerator.createGroups(faculties);

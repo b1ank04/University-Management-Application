@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Faculties</title>
+  <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+</head>
+<body>
+<div th:switch="${groups}">
+  <h2 th:case="${#lists.size(groups) == 0}">
+    No groups found!
+  </h2>
+  <div th:case="*">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Groups</h2>
+      </div>
+      <div class="col-md-6 text-end">
+        <a th:href="@{/}" class="btn btn-primary" role="button">Home page</a>
+      </div>
+    </div>
+    <table class="table">
+      <thead class="table-light">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Faculty ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Students</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="group: ${groups}">
+        <td th:text="${group.getId()}"></td>
+        <td th:text="${group.getFaculty() != null ? group.getFaculty().getId() : 'No faculty'}"></td>
+        <td th:text="${group.getName()}"></td>
+        <td>
+          <details th:id="'studentDetails_' + ${group.getStudents()}">
+            <summary>Click to show</summary>
+            <div th:each="student : ${group.getStudents()}" th:text="${student.getFirstName()} + ' ' + ${student.getLastName()}"></div>
+          </details>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+  const studentDetailsList = document.querySelectorAll('[id^="studentDetails_"]');
+  studentDetailsList.forEach(studentDetails => {
+    const summary = studentDetails.querySelector('summary');
+
+    studentDetails.addEventListener('toggle', function() {
+      if (studentDetails.open) {
+        summary.textContent = 'Click to hide';
+      } else {
+        summary.textContent = 'Click to show';
+      }
+    });
+  });
+</script>
+</body>
+</html>
