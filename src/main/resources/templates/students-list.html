@@ -11,14 +11,7 @@
       No students found!
     </h2>
     <div th:case="*">
-      <div class="row">
-        <div class="col-md-6">
-          <h2>Students</h2>
-        </div>
-        <div class="col-md-6 text-end">
-          <a th:href="@{/}" class="btn btn-primary" role="button">Home page</a>
-        </div>
-      </div>
+      <header th:replace="fragments/general.html :: header (entityName = 'Students')"></header>
       <table class="table">
         <thead class="table-light">
         <tr>

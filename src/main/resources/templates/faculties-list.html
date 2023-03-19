@@ -11,14 +11,7 @@
       No faculties found!
     </h2>
     <div th:case="*">
-      <div class="row">
-        <div class="col-md-6">
-          <h2>Faculties</h2>
-        </div>
-        <div class="col-md-6 text-end">
-          <a th:href="@{/}" class="btn btn-primary" role="button">Home page</a>
-        </div>
-      </div>
+      <header th:replace="fragments/general.html :: header (entityName = 'Faculties')"></header>
       <table class="table">
         <thead class="table-light">
         <tr>
@@ -49,31 +42,10 @@
       </table>
     </div>
   </div>
-    <script>
-      const groupDetailsList = document.querySelectorAll('[id^="groupDetails_"]');
-      const subjectDetailsList = document.querySelectorAll('[id^="subjectDetails_"]');
-      groupDetailsList.forEach(groupDetails => {
-        const summary = groupDetails.querySelector('summary');
-
-        groupDetails.addEventListener('toggle', function() {
-          if (groupDetails.open) {
-            summary.textContent = 'Click to hide';
-          } else {
-            summary.textContent = 'Click to show';
-          }
-        });
-      });
-      subjectDetailsList.forEach(subjectDetails => {
-        const summary = subjectDetails.querySelector('summary');
-
-        subjectDetails.addEventListener('toggle', function () {
-          if (subjectDetails.open) {
-            summary.textContent = 'Click to hide';
-          } else {
-            summary.textContent = 'Click to show';
-          }
-        })
-      });
+    <th:block th:replace="fragments/general.html :: detailsScript"></th:block>
+    <script th:inline="javascript">
+      openClose("subjectDetails_")
+      openClose("groupDetails_")
     </script>
   </body>
 </html>

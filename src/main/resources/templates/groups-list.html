@@ -5,20 +5,13 @@
   <title>Faculties</title>
   <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
 </head>
-<body>
+<body th:onload="'openClose('studentDetails_')'">
 <div th:switch="${groups}">
   <h2 th:case="${#lists.size(groups) == 0}">
     No groups found!
   </h2>
   <div th:case="*">
-    <div class="row">
-      <div class="col-md-6">
-        <h2>Groups</h2>
-      </div>
-      <div class="col-md-6 text-end">
-        <a th:href="@{/}" class="btn btn-primary" role="button">Home page</a>
-      </div>
-    </div>
+    <header th:replace="fragments/general.html :: header (entityName = 'Groups')"></header>
     <table class="table">
       <thead class="table-light">
       <tr>
@@ -44,19 +37,9 @@
     </table>
   </div>
 </div>
-<script>
-  const studentDetailsList = document.querySelectorAll('[id^="studentDetails_"]');
-  studentDetailsList.forEach(studentDetails => {
-    const summary = studentDetails.querySelector('summary');
-
-    studentDetails.addEventListener('toggle', function() {
-      if (studentDetails.open) {
-        summary.textContent = 'Click to hide';
-      } else {
-        summary.textContent = 'Click to show';
-      }
-    });
-  });
+<th:block th:replace="fragments/general.html :: detailsScript"></th:block>
+<script th:inline="javascript">
+  openClose("studentDetails_")
 </script>
 </body>
 </html>
