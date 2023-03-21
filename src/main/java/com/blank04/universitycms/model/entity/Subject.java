@@ -7,6 +7,7 @@ import lombok.*;
 @Table(name = "subjects")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

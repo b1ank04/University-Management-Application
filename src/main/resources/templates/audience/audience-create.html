@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:replace="fragments/general.html ::headerfiles(title='Create audience')"></th:block>
+<body>
+  <form action="#" th:action="@{/api/audiences/create}" method="post">
+    <label for="floor">Floor</label>
+    <input type="number" name="floor" id="floor" placeholder="Floor number" value="0" onblur="validateFloor()"/>
+    <button class="btn btn-success" type="submit">Submit</button>
+  </form>
+  <script>
+    function validateFloor() {
+      const floorInput = document.getElementById("floor");
+      if (floorInput.value === "") {
+        floorInput.value = "0";
+      }
+    }
+  </script>
+</body>
+</html>

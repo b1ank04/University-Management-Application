@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<th:block th:replace="fragments/general.html :: headerfiles(title='Subjects')"></th:block>
+<body>
+<div th:switch="${subjects}">
+    <h2 th:case="${#lists.size(subjects) == 0}">
+        No subjects found!
+    </h2>
+    <div th:case="*">
+        <header th:replace="fragments/general.html :: header (entityName = 'Subjects')"></header>
+        <table class="table">
+            <thead class="table-light">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Faculty ID</th>
+                <th scope="col">Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="subject: ${subjects}">
+                <td th:text="${subject.getId()}"></td>
+                <td th:text="${subject.getFaculty() != null ? subject.getFaculty().getId() : 'No faculty'}"></td>
+                <td th:text="${subject.getName()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

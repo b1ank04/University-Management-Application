@@ -1,6 +1,5 @@
 package com.blank04.universitycms.model.user.impl;
 
-import com.blank04.universitycms.model.entity.Group;
 import com.blank04.universitycms.model.entity.Subject;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,7 +22,7 @@ public class Teacher extends BasicUser {
     private String lastName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subject_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "subject_id", referencedColumnName = "id")
     @ToString.Exclude
     private Subject subject;
 

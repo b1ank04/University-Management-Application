@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:replace="fragments/general.html :: headerfiles(title='Faculties')"></th:block>
+  <body>
+  <div th:switch="${faculties}">
+    <h2 th:case="${#lists.size(faculties) == 0}">
+      No faculties found!
+    </h2>
+    <div th:case="*">
+      <header th:replace="fragments/general.html :: header (entityName = 'Faculties')"></header>
+      <table class="table">
+        <thead class="table-light">
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Subjects</th>
+          <th scope="col">Groups</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="faculty: ${faculties}">
+          <td th:text="${faculty.getId()}"></td>
+          <td th:text="${faculty.getName()}"></td>
+          <td>
+            <details th:id="'subjectDetails_' + ${faculty.getId()}">
+              <summary>Click to show</summary>
+              <div th:each="subject : ${faculty.getSubjects()}" th:text="${subject.getName()}"></div>
+            </details>
+          </td>
+          <td>
+            <details th:id="'groupDetails_' + ${faculty.getId()}">
+              <summary>Click to show</summary>
+              <div th:each="group : ${faculty.getGroups()}" th:text="${group.getName()}"></div>
+            </details>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+    <th:block th:replace="fragments/general.html :: detailsScript"></th:block>
+    <script th:inline="javascript">
+      openClose("subjectDetails_")
+      openClose("groupDetails_")
+    </script>
+  </body>
+</html>

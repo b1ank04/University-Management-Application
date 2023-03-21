@@ -3,6 +3,7 @@ package com.blank04.universitycms.model.user.impl;
 import com.blank04.universitycms.model.entity.Group;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -36,8 +37,9 @@ public class Student extends BasicUser {
         this.group = group;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Group group;
 

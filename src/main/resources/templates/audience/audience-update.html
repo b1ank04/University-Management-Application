@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:replace="~{fragments/general.html :: headerfiles(title='Update audience')}"></th:block>
+<body>
+  <form action="#" th:action="@{/api/audiences/update}" method="post">
+    <label for="id">ID</label>
+    <input readonly type="number" name="id" id="id" th:value="${id}"/>
+    <label for="floor">Floor</label>
+    <input type="number" name="floor" id="floor" placeholder="Floor number" value="0" onblur="validateFloor()"/>
+    <button class="btn btn-success" type="submit">Submit</button>
+  </form>
+  <script>
+    function validateFloor() {
+      const floorInput = document.getElementById("floor");
+      if (floorInput.value === "") {
+        floorInput.value = "0";
+      }
+    }
+  </script>
+</body>
+</html>
