@@ -1,10 +1,6 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Audiences</title>
-    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
-</head>
+<th:block th:replace="fragments/general.html :: headerfiles(title='Subjects')"></th:block>
 <body>
 <div th:switch="${subjects}">
     <h2 th:case="${#lists.size(subjects) == 0}">

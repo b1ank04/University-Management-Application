@@ -90,11 +90,11 @@ public class DataGenerator {
     }
 
     public static List<Audience> createAudiences() {
-        Set<Audience> audiences = new HashSet<>();
+        List<Audience> audiences = new ArrayList<>();
         while (audiences.size() < 20) {
             audiences.add(new Audience(null, random.nextInt(1, 4)));
         }
-        return audiences.stream().toList();
+        return audiences;
     }
 
     public static List<Subject> createSubjects(List<Faculty> faculties) {
@@ -102,11 +102,11 @@ public class DataGenerator {
                 "Art", "Astronomy", "Physics", "Computer Science",
                 "History", "Economics", "Philosophy"));
         Collections.shuffle(subjects);
-        Set<Subject> resultSubjects = new HashSet<>();
+        List<Subject> resultSubjects = new ArrayList<>();
         for (String name : subjects) {
-            resultSubjects.add(new Subject(null, name, faculties.get(ThreadLocalRandom.current().nextInt(faculties.size()))));
+            resultSubjects.add(new Subject(null, name, faculties.get(random.nextInt(0, faculties.size()))));
         }
-        return resultSubjects.stream().toList();
+        return resultSubjects;
 
     }
 

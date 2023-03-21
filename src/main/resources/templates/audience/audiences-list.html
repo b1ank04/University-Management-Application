@@ -1,10 +1,6 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Audiences</title>
-    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
-</head>
+<th:block th:replace="fragments/general.html :: headerfiles(title='Audiences')"></th:block>
 <body>
     <div th:switch="${audiences}">
         <h2 th:case="${#lists.size(audiences) == 0}">
@@ -17,12 +13,16 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Floor</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="audience: ${audiences}">
                     <td th:text="${audience.getId()}"></td>
                     <td th:text="${audience.getFloor()}"></td>
+                    <td><a th:href="@{audiences/update/{id}(id=${audience.getId()})}" class="btn btn-secondary" role="button">Edit</a></td>
+                    <td><a th:href="@{audiences/delete/{id}(id=${audience.getId()})}" class="btn btn-secondary" role="button">Delete</a></td>
                 </tr>
                 </tbody>
             </table>
