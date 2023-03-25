@@ -5,20 +5,24 @@ import com.blank04.universitycms.model.entity.Audience;
 import com.blank04.universitycms.model.entity.Faculty;
 import com.blank04.universitycms.model.entity.Group;
 import com.blank04.universitycms.model.entity.Subject;
+import com.blank04.universitycms.model.user.Role;
 import com.blank04.universitycms.model.user.impl.Student;
 import com.blank04.universitycms.model.user.impl.Teacher;
+import lombok.experimental.UtilityClass;
+import org.apache.commons.text.RandomStringGenerator;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicInteger;
 
+@UtilityClass
 public class DataGenerator {
     private static final Random random = new Random();
 
-    private DataGenerator() {
-        throw new IllegalStateException("Utility class");
-    }
+    private static final AtomicInteger userCount = new AtomicInteger(1);
+
 
     public static List<Student> createStudents(List<Group> groups) {
         List<String> firstNames = List.of("Artur", "Bogdan", "Vadim", "Ivan",
@@ -34,6 +38,9 @@ public class DataGenerator {
             String firstName = firstNames.get(random.nextInt(firstNames.size()));
             String lastName = lastNames.get(random.nextInt(lastNames.size()));
             Student student = new Student(null, firstName, lastName);
+            student.setUsername("user_" + userCount.getAndIncrement());
+            student.setPassword(randomPassword(10));
+            student.addRole(Role.STUDENT);
             students.add(student);
         }
 
@@ -77,13 +84,16 @@ public class DataGenerator {
             String lastName = lastNames.get(random.nextInt(lastNames.size()));
             Subject subject = subjectIndex < 10 ? subjects.get(subjectIndex) : subjects.get(ThreadLocalRandom.current().nextInt(subjects.size()));
             Teacher teacher = new Teacher(null, firstName, lastName, subject);
+            teacher.setUsername("user_" + userCount.getAndIncrement());
+            teacher.setPassword(randomPassword(random.nextInt(8,13)));
+            teacher.addRole(Role.TEACHER);
+            if (random.nextBoolean()) teacher.addRole(Role.ADMIN);
             teachers.add(teacher);
             subjectIndex++;
         }
         for (Subject subject : subjects) {
             teachers.stream().findAny().orElseThrow().setSubject(subject);
         }
-
         List<Teacher> shuffleTeachers = new ArrayList<>(teachers.stream().toList());
         Collections.shuffle(shuffleTeachers);
         return shuffleTeachers;
@@ -161,5 +171,11 @@ public class DataGenerator {
                     , null, matchingTeacher.getId()
                     , null, null);
         } else throw new NoSuchElementException(String.format("Teacher with subject_id=%d doesn't exist", subjectId));
+    }
+
+    private static String randomPassword(int length) {
+        RandomStringGenerator pwdGenerator = new RandomStringGenerator.Builder().withinRange(33, 45)
+                .build();
+        return pwdGenerator.generate(length);
     }
 }

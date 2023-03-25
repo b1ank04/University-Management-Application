@@ -21,10 +21,23 @@ public class Teacher extends BasicUser {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "password")
+    private String password;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
     @ToString.Exclude
     private Subject subject;
+
+    public Teacher(Long id, String firstName, String lastName, Subject subject) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.subject = subject;
+    }
 
     @Override
     public boolean equals(Object o) {

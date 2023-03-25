@@ -7,13 +7,14 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "students")
 @Data
 @NoArgsConstructor
-public class Student extends BasicUser {
+public class Student extends BasicUser implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,6 +25,11 @@ public class Student extends BasicUser {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "password")
+    private String password;
     public Student(Long id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;

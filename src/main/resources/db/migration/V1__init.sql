@@ -23,6 +23,8 @@ CREATE TABLE students(
                          group_id int,
                          first_name varchar(50),
                          last_name varchar(50),
+                         username varchar(50),
+                         password varchar(100),
                          FOREIGN KEY(group_id) references groups(id) ON DELETE CASCADE
 );
 
@@ -31,5 +33,7 @@ CREATE TABLE teachers(
                          subject_id int,
                          first_name varchar(50),
                          last_name varchar(50),
+                         username varchar(50),
+                         password varchar(100),
                          FOREIGN KEY(subject_id) references subjects(id) ON DELETE CASCADE
 );
