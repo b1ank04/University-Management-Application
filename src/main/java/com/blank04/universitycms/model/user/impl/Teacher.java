@@ -1,10 +1,8 @@
 package com.blank04.universitycms.model.user.impl;
 
 import com.blank04.universitycms.model.entity.Subject;
-import com.blank04.universitycms.model.user.User;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Objects;
 

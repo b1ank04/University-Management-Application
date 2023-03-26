@@ -1,16 +1,12 @@
 package com.blank04.universitycms.controller;
 
-import com.blank04.universitycms.model.entity.Audience;
-import com.blank04.universitycms.model.user.User;
 import com.blank04.universitycms.model.user.impl.BasicUser;
 import com.blank04.universitycms.repository.BasicUserRepository;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
