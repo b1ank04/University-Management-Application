@@ -3,7 +3,6 @@ package com.blank04.universitycms.model.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,10 +24,10 @@ public class Faculty {
     }
 
     @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL)
-    private Set<Subject> subjects = new HashSet<>();
+    private final Set<Subject> subjects = new HashSet<>();
 
     @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL)
-    private Set<Group> groups = new HashSet<>();
+    private final Set<Group> groups = new HashSet<>();
 
     public void addSubject(Subject subject) {
         subjects.add(subject);

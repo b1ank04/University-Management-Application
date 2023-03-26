@@ -1,53 +1,37 @@
 package com.blank04.universitycms.model.user.impl;
 
 import com.blank04.universitycms.model.entity.Group;
+import com.blank04.universitycms.model.user.User;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "students")
-@Data
 @NoArgsConstructor
-public class Student extends BasicUser implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
-    @Column(name = "username")
-    private String username;
-
-    @Column(name = "password")
-    private String password;
-    public Student(Long id, String firstName, String lastName) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    public Student(Long id, String firstName, String lastName, Group group) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.group = group;
-    }
+@DiscriminatorValue("student")
+public class Student extends BasicUser {
 
     @ManyToOne
     @JoinColumn(name = "group_id")
     @EqualsAndHashCode.Exclude
+    @Setter
+    @Getter
     @ToString.Exclude
     private Group group;
+
+    public Student(Long id, String firstName, String lastName) {
+        super.setId(id);
+        super.setFirstName(firstName);
+        super.setLastName(lastName);
+    }
+
+    public Student(Long id, String firstName, String lastName, Group group) {
+        super.setId(id);
+        super.setFirstName(firstName);
+        super.setLastName(lastName);
+        this.group = group;
+    }
 
     @Override
     public boolean equals(Object o) {

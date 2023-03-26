@@ -18,22 +18,16 @@ CREATE TABLE groups(
                        name varchar(5),
                        FOREIGN KEY(faculty_id) references faculties(id) ON DELETE CASCADE
 );
-CREATE TABLE students(
+CREATE TABLE users(
                          id SERIAL PRIMARY KEY,
-                         group_id int,
                          first_name varchar(50),
                          last_name varchar(50),
                          username varchar(50),
                          password varchar(100),
-                         FOREIGN KEY(group_id) references groups(id) ON DELETE CASCADE
-);
-
-CREATE TABLE teachers(
-                         id SERIAL PRIMARY KEY,
                          subject_id int,
-                         first_name varchar(50),
-                         last_name varchar(50),
-                         username varchar(50),
-                         password varchar(100),
+                         group_id int,
+                         user_type varchar(20),
+                         FOREIGN KEY(group_id) references groups(id) ON DELETE CASCADE,
                          FOREIGN KEY(subject_id) references subjects(id) ON DELETE CASCADE
 );
+

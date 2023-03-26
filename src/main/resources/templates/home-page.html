@@ -2,10 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <th:block th:replace="fragments/general.html :: headerfiles(title='Home page')"></th:block>
 <body>
-    <h2 th:text="'Welcome to ' + ${appName} + '!'" />
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" class="btn btn-danger" value="Sign Out"/>
-    </form>
+    <div style="display: flex; flex-direction: row; justify-content: space-between">
+        <h2 th:text="'Welcome to ' + ${appName} + '!'"/>
+        <a th:if="${isAdmin == true}"  th:href="@{admin}" class="btn btn-warning btn-lg" role="button">Admin panel</a>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" class="btn btn-danger" value="Sign Out"/>
+        </form>
+    </div>
     <br>
     <div>
         <h3>Choose the unit to manage:</h3>

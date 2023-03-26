@@ -1,44 +1,31 @@
 package com.blank04.universitycms.model.user.impl;
 
 import com.blank04.universitycms.model.entity.Subject;
+import com.blank04.universitycms.model.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Objects;
 
 @Entity
-@Table(name = "teachers")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@DiscriminatorValue("teacher")
 public class Teacher extends BasicUser {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
-    @Column(name = "username")
-    private String username;
-
-    @Column(name = "password")
-    private String password;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
     @ToString.Exclude
+    @Getter
+    @Setter
     private Subject subject;
 
     public Teacher(Long id, String firstName, String lastName, Subject subject) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        super.setId(id);
+        super.setFirstName(firstName);
+        super.setLastName(lastName);
         this.subject = subject;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

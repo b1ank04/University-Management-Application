@@ -40,5 +40,17 @@
         });
     }
 </script>
+<script th:fragment="checkPass" th:inline="javascript">
+    function checkPasswordLength() {
+        let password = document.getElementById("password").value;
+        if (password.length < 8) {
+            document.getElementById("submit-btn").disabled = true;
+            document.getElementById("error-msg").hidden = false;
+        } else {
+            document.getElementById("submit-btn").disabled = false;
+            document.getElementById("error-msg").hidden = true;
+        }
+    }
+</script>
 </body>
 </html>

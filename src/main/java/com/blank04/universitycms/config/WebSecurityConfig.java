@@ -32,12 +32,13 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/").authenticated()
                         .requestMatchers("/webjars/**").permitAll()
+                        .requestMatchers("/admin").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(userDetailsService)
                 .userDetailsService(username -> new User(
                         "admin",
-                        "admin",
+                        "administrator",
                         Collections.singleton(new SimpleGrantedAuthority("ADMIN"))
                 ))
                 .formLogin(form -> form

@@ -174,7 +174,7 @@ public class DataGenerator {
     }
 
     private static String randomPassword(int length) {
-        RandomStringGenerator pwdGenerator = new RandomStringGenerator.Builder().withinRange(33, 45)
+        RandomStringGenerator pwdGenerator = new RandomStringGenerator.Builder().withinRange(65, 121)
                 .build();
         return pwdGenerator.generate(length);
     }

@@ -1,32 +1,26 @@
 package com.blank04.universitycms.service.impl;
 
-import com.blank04.universitycms.model.user.impl.BasicUser;
-import com.blank04.universitycms.repository.StudentRepository;
-import com.blank04.universitycms.repository.TeacherRepository;
+import com.blank04.universitycms.model.user.User;
+import com.blank04.universitycms.repository.BasicUserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
-@Transactional
 public class UserDetailsServiceImpl implements UserDetailsService{
 
-    private final StudentRepository studentRepository;
-    private final TeacherRepository teacherRepository;
+    private final BasicUserRepository basicUserRepository;
 
-    public UserDetailsServiceImpl(StudentRepository studentRepository, TeacherRepository teacherRepository) {
-        this.studentRepository = studentRepository;
-        this.teacherRepository = teacherRepository;
+    public UserDetailsServiceImpl(BasicUserRepository basicUserRepository) {
+        this.basicUserRepository = basicUserRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<? extends BasicUser> user = studentRepository.findStudentByUsername(username).isPresent() ?
-                studentRepository.findStudentByUsername(username) : teacherRepository.findTeacherByUsername(username);
+        Optional<? extends User> user = basicUserRepository.findByUsername(username);
         if (user.isPresent()) {
             return org.springframework.security.core.userdetails.User.builder()
                     .username(user.get().getUsername())

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
+<th:block th:replace="~{fragments/general.html :: headerfiles(title='Sign in')}"></th:block>
+<body
+ style="
+ margin        : 0;
+ padding       : 0;
+ display       : grid;
+ place-content : center;
+ min-height    : 100vh">
+  <div style="text-align:center; border: 2px solid green; padding: 10px; border-radius: 10px">
+    <div th:if="${param.error}">
+      Invalid username and password.
+    </div>
+    <div th:if="${param.logout}">
+      You have been logged out.
+    </div>
+    <form th:action="@{/login}" method="post">
+      <div>
+        <label> Username
+        <input type="text" name="username" class="form-control" placeholder="Enter username"/>
+        </label>
+      </div>
+      <div>
+        <label> Password:
+          <input type="password" class="form-control" name="password" id="password" placeholder="Enter password" oninput="checkPasswordLength()"/>
+        </label>
+      </div>
+      <div>
+        <br>
+        <button type="submit" id="submit-btn" class="btn btn-outline-success">Submit</button>
+      </div>
+    </form>
+  </div>
+  <span id="error-msg" style="color:red" hidden>Password should be at least 8 symbols length</span>
+  <script th:replace="~{fragments/general.html :: checkPass}"></script>
+</body>
+</html>

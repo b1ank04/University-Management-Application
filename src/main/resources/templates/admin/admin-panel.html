@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:replace="~{fragments/general.html :: headerfiles(title='Admin panel')}"></th:block>
+<body>
+    <h2 th:text="'Welcome, ' + ${user.getName()} + '!'"></h2>
+    <div th:switch="${users}">
+        <h2 th:case="${#lists.size(users) == 0}">
+            No users found!
+        </h2>
+        <div th:case="*">
+            <header class="row" th:fragment="header(entityName)">
+                <div style="display: flex; flex-direction: row; justify-content: space-between">
+                    <div>
+                        <h2 th:text="${entityName}"></h2>
+                    </div>
+                    <div>
+                        <a th:href="@{/}" class="btn btn-primary" role="button">Home page</a>
+                    </div>
+                </div>
+            </header>
+            <table class="table">
+                <thead class="table-light">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">First name</th>
+                    <th scope="col">Last name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Admin</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Password</th>
+                    <th scope="col">Change password</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="usr: ${users}">
+                    <td th:text="${usr.getId()}"></td>
+                    <td th:text="${usr.getFirstName()}"></td>
+                    <td th:text="${usr.getLastName()}"></td>
+                    <td th:text="${usr.getUserType()}"></td>
+                    <td th:text="${usr.isAdmin()}"></td>
+                    <td th:text="${usr.getUsername()}"></td>
+                    <td th:text="${usr.getPassword()}"></td>
+                    <td><a th:href="@{admin/passwordUpdate/{username}(username=${usr.getUsername()})}" class="btn btn-secondary" role="button">Change</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
