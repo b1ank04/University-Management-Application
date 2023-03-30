@@ -15,6 +15,8 @@
           <th scope="col">Group ID</th>
           <th scope="col">First name</th>
           <th scope="col">Last name</th>
+          <th scope="col"> </th>
+          <th scope="col"> </th>
         </tr>
         </thead>
         <tbody>
@@ -23,6 +25,8 @@
           <td th:text="${student.getGroup() != null ? student.getGroup().getId() : 'No group' }"></td>
           <td th:text="${student.getFirstName()}"></td>
           <td th:text="${student.getLastName()}"></td>
+          <td><a th:href="@{students/update/{id}(id=${student.getId()})}" class="btn btn-secondary" role="button">Edit</a></td>
+          <td><a th:href="@{students/delete/{id}(id=${student.getId()})}" class="btn btn-secondary" role="button">Delete</a></td>
         </tr>
         </tbody>
       </table>

@@ -40,15 +40,23 @@
         });
     }
 </script>
-<script th:fragment="checkPass" th:inline="javascript">
-    function checkPasswordLength() {
-        let password = document.getElementById("password").value;
-        if (password.length < 8) {
+<script th:fragment="validateLength" th:inline="javascript">
+    function validateLength(length, elementId) {
+        let value = document.getElementById(elementId).value;
+        if (value.length < length) {
             document.getElementById("submit-btn").disabled = true;
             document.getElementById("error-msg").hidden = false;
         } else {
             document.getElementById("submit-btn").disabled = false;
             document.getElementById("error-msg").hidden = true;
+        }
+    }
+</script>
+<script th:fragment="validateId">
+    function validateId(elementId) {
+        const floorInput = document.getElementById(elementId);
+        if (floorInput.value === "") {
+            floorInput.value = "0";
         }
     }
 </script>

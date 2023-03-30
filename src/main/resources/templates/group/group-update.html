@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:replace="~{fragments/general.html :: headerfiles(title='Group update')}"></th:block>
+<body>
+  <form action="#" th:action="@{/api/groups/update}" method="post">
+    <label for="id">ID</label>
+    <input readonly type="number" name="id" id="id" th:value="${id}"/>
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name" placeholder="Enter name" th:value="${name}" oninput="validateLength(1, 'name')"/>
+    <label for="facultyId">Faculty ID</label>
+    <input type="number" name="facultyId" id="facultyId" th:value="${facultyId}" oninput="validateId('facultyId')"/>
+    <button class="btn btn-success" id="submit-btn" type="submit">Submit</button>
+  </form>
+  <span id="error-msg" style="color:red" hidden>Name should be at least 1 symbol length</span>
+  <script th:replace="~{fragments/general.html :: validateLength}"></script>
+  <script th:replace="~{fragments/general.html :: validateId}"></script>
+</body>
+</html>

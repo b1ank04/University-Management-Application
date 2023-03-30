@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<th:block th:replace="fragments/general.html :: headerfiles(title='Home page')"></th:block>
+<th:block th:replace="~{fragments/general.html :: headerfiles(title='Home page')}"></th:block>
 <body>
     <div style="display: flex; flex-direction: row; justify-content: space-between">
         <h2 th:text="'Welcome to ' + ${appName} + '!'"/>

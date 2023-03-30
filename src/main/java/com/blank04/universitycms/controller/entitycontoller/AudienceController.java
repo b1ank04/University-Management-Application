@@ -19,6 +19,7 @@ public class AudienceController {
     private final AudienceService audienceService;
 
     private static final String REDIRECT="redirect:/api/audiences";
+    private static final String EXCEPTION="exception";
 
     public AudienceController(AudienceService audienceService) {
         this.audienceService = audienceService;
@@ -50,7 +51,7 @@ public class AudienceController {
          model.addAttribute("id", audience.get().getId());
          return "audience/audience-update";
         } else {
-            return "exception";
+            return EXCEPTION;
         }
     }
 

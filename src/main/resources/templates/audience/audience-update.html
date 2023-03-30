@@ -6,16 +6,9 @@
     <label for="id">ID</label>
     <input readonly type="number" name="id" id="id" th:value="${id}"/>
     <label for="floor">Floor</label>
-    <input type="number" name="floor" id="floor" placeholder="Floor number" value="0" onblur="validateFloor()"/>
-    <button class="btn btn-success" type="submit">Submit</button>
+    <input type="number" name="floor" id="floor" placeholder="Floor number" value="0" onblur="validateId('floor')"/>
+    <button class="btn btn-success" id="submit-btn" type="submit">Submit</button>
   </form>
-  <script>
-    function validateFloor() {
-      const floorInput = document.getElementById("floor");
-      if (floorInput.value === "") {
-        floorInput.value = "0";
-      }
-    }
-  </script>
+  <script th:replace="~{fragments/general.html :: validateId}"></script>
 </body>
 </html>

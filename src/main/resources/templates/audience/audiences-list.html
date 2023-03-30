@@ -1,20 +1,20 @@
 <!doctype html>
 <html lang="en">
-<th:block th:replace="fragments/general.html :: headerfiles(title='Audiences')"></th:block>
+<th:block th:replace="~{fragments/general.html :: headerfiles(title='Audiences')}"></th:block>
 <body>
     <div th:switch="${audiences}">
         <h2 th:case="${#lists.size(audiences) == 0}">
             No audiences found!
         </h2>
         <div th:case="*">
-            <header th:replace="fragments/general.html :: header (entityName = 'Audiences')"></header>
+            <header th:replace="~{fragments/general.html :: header (entityName = 'Audiences')}"></header>
             <table class="table">
                 <thead class="table-light">
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Floor</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
+                    <th scope="col"> </th>
+                    <th scope="col"> </th>
                 </tr>
                 </thead>
                 <tbody>

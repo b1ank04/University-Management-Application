@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:replace="~{fragments/general.html :: headerfiles(title='Faculty update')}"></th:block>
+<body>
+<form action="#" th:action="@{/api/faculties/update}" method="post">
+    <label for="id">ID</label>
+    <input readonly type="number" name="id" id="id" th:value="${id}"/>
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name" placeholder="Enter new name" th:value="${name}" onblur="validateLength(1, 'name')"/>
+    <button class="btn btn-success" id="submit-btn" type="submit">Submit</button>
+</form>
+<script th:replace="~{fragments/general.html :: validateLength}"></script>
+</body>
+</html>

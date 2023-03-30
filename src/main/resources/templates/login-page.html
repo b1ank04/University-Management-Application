@@ -23,7 +23,7 @@
       </div>
       <div>
         <label> Password:
-          <input type="password" class="form-control" name="password" id="password" placeholder="Enter password" oninput="checkPasswordLength()"/>
+          <input type="password" class="form-control" name="password" id="password" placeholder="Enter password" oninput="validateLength(8, 'password')"/>
         </label>
       </div>
       <div>
@@ -33,6 +33,6 @@
     </form>
   </div>
   <span id="error-msg" style="color:red" hidden>Password should be at least 8 symbols length</span>
-  <script th:replace="~{fragments/general.html :: checkPass}"></script>
+  <script th:replace="~{fragments/general.html :: validateLength}"></script>
 </body>
 </html>

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<th:block th:replace="fragments/general.html :: headerfiles(title='Faculties')"></th:block>
+<th:block th:replace="~{fragments/general.html :: headerfiles(title='Faculties')}"></th:block>
   <body>
   <div th:switch="${faculties}">
     <h2 th:case="${#lists.size(faculties) == 0}">
       No faculties found!
     </h2>
     <div th:case="*">
-      <header th:replace="fragments/general.html :: header (entityName = 'Faculties')"></header>
+      <header th:replace="~{fragments/general.html :: header (entityName = 'Faculties')}"></header>
       <table class="table">
         <thead class="table-light">
         <tr>
@@ -15,6 +15,8 @@
           <th scope="col">Name</th>
           <th scope="col">Subjects</th>
           <th scope="col">Groups</th>
+          <th scope="col"> </th>
+          <th scope="col"> </th>
         </tr>
         </thead>
         <tbody>
@@ -33,6 +35,8 @@
               <div th:each="group : ${faculty.getGroups()}" th:text="${group.getName()}"></div>
             </details>
           </td>
+          <td><a th:href="@{faculties/update/{id}(id=${faculty.getId()})}" class="btn btn-secondary" role="button">Edit</a></td>
+          <td><a th:href="@{faculties/delete/{id}(id=${faculty.getId()})}" class="btn btn-secondary" role="button">Delete</a></td>
         </tr>
         </tbody>
       </table>

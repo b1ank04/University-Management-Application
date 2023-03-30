@@ -14,6 +14,8 @@
                 <th scope="col">ID</th>
                 <th scope="col">Faculty ID</th>
                 <th scope="col">Name</th>
+                <th scope="col"> </th>
+                <th scope="col"> </th>
             </tr>
             </thead>
             <tbody>
@@ -21,11 +23,12 @@
                 <td th:text="${subject.getId()}"></td>
                 <td th:text="${subject.getFaculty() != null ? subject.getFaculty().getId() : 'No faculty'}"></td>
                 <td th:text="${subject.getName()}"></td>
+                <td><a th:href="@{subjects/update/{id}(id=${subject.getId()})}" class="btn btn-secondary" role="button">Edit</a></td>
+                <td><a th:href="@{subjects/delete/{id}(id=${subject.getId()})}" class="btn btn-secondary" role="button">Delete</a></td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-
 </body>
 </html>

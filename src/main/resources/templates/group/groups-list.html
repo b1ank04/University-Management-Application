@@ -7,7 +7,7 @@
     No groups found!
   </h2>
   <div th:case="*">
-    <header th:replace="fragments/general.html :: header (entityName = 'Groups')"></header>
+    <header th:replace="~{fragments/general.html :: header (entityName = 'Groups')}"></header>
     <table class="table">
       <thead class="table-light">
       <tr>
@@ -15,6 +15,8 @@
         <th scope="col">Faculty ID</th>
         <th scope="col">Name</th>
         <th scope="col">Students</th>
+        <th scope="col"> </th>
+        <th scope="col"> </th>
       </tr>
       </thead>
       <tbody>
@@ -28,6 +30,8 @@
             <div th:each="student : ${group.getStudents()}" th:text="${student.getFirstName()} + ' ' + ${student.getLastName()}"></div>
           </details>
         </td>
+        <td><a th:href="@{groups/update/{id}(id=${group.getId()})}" class="btn btn-secondary" role="button">Edit</a></td>
+        <td><a th:href="@{groups/delete/{id}(id=${group.getId()})}" class="btn btn-secondary" role="button">Delete</a></td>
       </tr>
       </tbody>
     </table>

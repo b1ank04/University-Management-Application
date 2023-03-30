@@ -18,6 +18,8 @@ public class Teacher extends BasicUser {
     @Setter
     private Subject subject;
 
+
+
     public Teacher(Long id, String firstName, String lastName, Subject subject) {
         super.setId(id);
         super.setFirstName(firstName);

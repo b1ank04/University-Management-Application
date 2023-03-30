@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:replace="~{fragments/general.html :: headerfiles(title='Teacher create')}"></th:block>
+<body>
+    <form action="#" th:action="@{/api/teachers/create}" method="post">
+        <label for="first_name">First name</label>
+        <input type="text" name="first_name" id="first_name" placeholder="Enter new first name" oninput="validateLength(1, 'first_name')"/>
+        <label for="last_name">Last name</label>
+        <input type="text" name="last_name" id="last_name" placeholder="Enter new last name" oninput="validateLength(1, 'last_name')"/>
+        <label for="subject_id">Subject ID</label>
+        <input type="number" name="subject_id" id="subject_id" oninput="validateId('subject_id')"/>
+        <button class="btn btn-success" id="submit-btn" type="submit">Submit</button>
+    </form>
+    <span id="error-msg" style="color:red" hidden>First and last names should be at least 1 symbol length</span>
+    <script th:replace="~{fragments/general.html :: validateLength}"></script>
+    <script th:replace="~{fragments/general.html :: validateId}"></script>
+    <script>
+        validateLength(1, 'first_name')
+        validateLength(1, 'last_name')
+    </script>
+</body>
+</html>
